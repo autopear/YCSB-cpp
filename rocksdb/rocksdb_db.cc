@@ -192,6 +192,7 @@ void RocksdbDB::Init() {
 
   rocksdb::Options opt;
   opt.create_if_missing = true;
+  opt.comparator = rocksdb::UIntStringComparator();
   std::vector<rocksdb::ColumnFamilyDescriptor> cf_descs;
   std::vector<rocksdb::ColumnFamilyHandle *> cf_handles;
   GetOptions(props, &opt, &cf_descs);
