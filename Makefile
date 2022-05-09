@@ -32,6 +32,8 @@ ifeq ($(BIND_LEVELDB), 1)
 endif
 
 ifeq ($(BIND_ROCKSDB), 1)
+	EXTRA_CXXFLAGS += -I../rocksdb/include
+	EXTRA_LDFLAGS += -L../rocksdb -ldl -lz -lsnappy -lzstd -lbz2 -llz4
 	LDFLAGS += -lrocksdb
 	SOURCES += $(wildcard rocksdb/*.cc)
 endif
