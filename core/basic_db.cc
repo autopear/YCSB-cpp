@@ -23,7 +23,7 @@ void BasicDB::Init() {
 DB::Status BasicDB::Read(const std::string &table, const std::string &key,
                          const std::vector<std::string> *fields, std::vector<Field> &result) {
   std::lock_guard<std::mutex> lock(mutex_);
-  cout << "READ " << table << ' ' << key;
+  cout << "[YCSB] READ " << table << ' ' << key;
   if (fields) {
     cout << " [ ";
     for (auto f : *fields) {
@@ -40,7 +40,7 @@ DB::Status BasicDB::Scan(const std::string &table, const std::string &key, int l
                          const std::vector<std::string> *fields,
                          std::vector<std::vector<Field>> &result) {
   std::lock_guard<std::mutex> lock(mutex_);
-  cout << "SCAN " << table << ' ' << key << " " << len;
+  cout << "[YCSB] SCAN " << table << ' ' << key << " " << len;
   if (fields) {
     cout << " [ ";
     for (auto f : *fields) {
@@ -56,7 +56,7 @@ DB::Status BasicDB::Scan(const std::string &table, const std::string &key, int l
 DB::Status BasicDB::Update(const std::string &table, const std::string &key,
                            std::vector<Field> &values) {
   std::lock_guard<std::mutex> lock(mutex_);
-  cout << "UPDATE " << table << ' ' << key << " [ ";
+  cout << "[YCSB] UPDATE " << table << ' ' << key << " [ ";
   for (auto v : values) {
     cout << v.name << '=' << v.value << ' ';
   }
@@ -67,7 +67,7 @@ DB::Status BasicDB::Update(const std::string &table, const std::string &key,
 DB::Status BasicDB::Insert(const std::string &table, const std::string &key,
                            std::vector<Field> &values) {
   std::lock_guard<std::mutex> lock(mutex_);
-  cout << "INSERT " << table << ' ' << key << " [ ";
+  cout << "[YCSB] INSERT " << table << ' ' << key << " [ ";
   for (auto v : values) {
     cout << v.name << '=' << v.value << ' ';
   }
@@ -77,7 +77,7 @@ DB::Status BasicDB::Insert(const std::string &table, const std::string &key,
 
 DB::Status BasicDB::Delete(const std::string &table, const std::string &key) {
   std::lock_guard<std::mutex> lock(mutex_);
-  cout << "DELETE " << table << ' ' << key << endl;
+  cout << "[YCSB] DELETE " << table << ' ' << key << endl;
   return kOK;
 }
 

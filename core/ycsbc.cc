@@ -38,7 +38,7 @@ void StatusThread(ycsbc::Measurements *measurements, CountDownLatch *latch, int 
     std::time_t now_c = system_clock::to_time_t(now);
     duration<double> elapsed_time = now - start;
 
-    std::cout << std::put_time(std::localtime(&now_c), "%F %T") << ' '
+    std::cout << "[YCSB] " << std::put_time(std::localtime(&now_c), "%F %T") << ' '
               << static_cast<long long>(elapsed_time.count()) << " sec: ";
 
     std::cout << measurements->GetStatusMsg() << std::endl;
@@ -115,9 +115,9 @@ int main(const int argc, const char *argv[]) {
       status_future.wait();
     }
 
-    std::cout << "Load runtime(sec): " << runtime << std::endl;
-    std::cout << "Load operations(ops): " << sum << std::endl;
-    std::cout << "Load throughput(ops/sec): " << sum / runtime << std::endl;
+    std::cout << "[YCSB] Load runtime(sec): " << runtime << std::endl;
+    std::cout << "[YCSB] Load operations(ops): " << sum << std::endl;
+    std::cout << "[YCSB] Load throughput(ops/sec): " << sum / runtime << std::endl;
   }
 
   measurements.Reset();
@@ -158,9 +158,9 @@ int main(const int argc, const char *argv[]) {
       status_future.wait();
     }
 
-    std::cout << "Run runtime(sec): " << runtime << std::endl;
-    std::cout << "Run operations(ops): " << sum << std::endl;
-    std::cout << "Run throughput(ops/sec): " << sum / runtime << std::endl;
+    std::cout << "[YCSB] Run runtime(sec): " << runtime << std::endl;
+    std::cout << "[YCSB] Run operations(ops): " << sum << std::endl;
+    std::cout << "[YCSB] Run throughput(ops/sec): " << sum / runtime << std::endl;
   }
 
   for (int i = 0; i < num_threads; i++) {
