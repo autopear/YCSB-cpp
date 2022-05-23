@@ -228,10 +228,30 @@ void RocksdbDB::Init() {
   }
 }
 
+bool RocksdbDB::HasPendingIO() const {
+  uint64_t cnt = 0;
+  db_->GetIntProperty(rocksdb::DB::Properties::kMemTableFlushPending, &cnt);
+  if (cnt > 0) {
+    return true;
+  }
+  db_->GetIntProperty(rocksdb::DB::Properties::kNumRunningFlushes, &cnt);
+  if (cnt > 0) {
+    return true;
+  }
+  db_->GetIntProperty(rocksdb::DB::Properties::kNumRunningCompactions, &cnt);
+  if (cnt > 0) {
+    return true;
+  }
+  return false;
+}
+
 void RocksdbDB::Cleanup() {
   const std::lock_guard<std::mutex> lock(mu_);
   if (--ref_cnt_) {
     return;
+  }
+  while (HasPendingIO()) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
   }
   for (auto *h : cf_handles_) {
     delete h;
