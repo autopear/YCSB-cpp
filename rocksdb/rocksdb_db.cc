@@ -236,6 +236,10 @@ void RocksdbDB::Cleanup() {
   for (auto *h : cf_handles_) {
     delete h;
   }
+  rocksdb::Status s = db_->Close();
+  if (!s.ok()) {
+    throw utils::Exception(std::string("RocksDB Close: ") + s.ToString());
+  }
   delete db_;
 }
 
