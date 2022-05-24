@@ -207,6 +207,11 @@ void RocksdbDB::Init() {
   GetOptions(props, &opt, &cf_descs);
   opt.create_if_missing = true;
   opt.comparator = rocksdb::UIntStringComparator();
+  int max_bg_jobs =
+      std::stoi(props.GetProperty(PROP_MAX_BG_JOBS, PROP_MAX_BG_JOBS_DEFAULT));
+  if (max_bg_jobs > 0) {
+    opt.IncreaseParallelism(max_bg_jobs);
+  }
 #ifdef USE_MERGEUPDATE
   opt.merge_operator.reset(new YCSBUpdateMerge);
 #endif
